@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int check(vector<vector<int>>& a, int mid)
+    {
+        int n=a.size();
+        int i=n-1; //bottom row
+        int j=0; //first column
+        int ans=0;
+        //we will start from bottom rows left most element 
+        while(i>=0 && j<n)
+        {
+            if(a[i][j]>mid) i--; //if element i greater than mid , go upwards 
+                             //because there are smaller elements upward not rightwards
+            else
+            {
+                ans+=i+1; /**element less than mid counts which colmumn number
+                         because elements before it will already be less than mid and present element
+                        (sorted matrix) **/
+                j++; //check rightwards 
+            }
+        }
+        return ans; //count of elements less than and equal to mid
+    }
+    int kthSmallest(vector<vector<int>>& a, int k) {
+        int n=a.size();
+        int i=a[0][0]; //lowest
+        int j=a[n-1][n-1]; //highest
+        while(i<j)
+        {
+            int mid=(j+i)/2; //mid 
+            int count=check(a,mid); //check elements le than and equal to mid 
+            if(count<k) i=mid+1; /**if elements les than it are les than k
+                                which means we have to check for element greater than mid
+                                & who has count=k **/ 
+            else j=mid; //else check for smaller number who has check less than present count 
+        }
+        return i;
+    }
+};
